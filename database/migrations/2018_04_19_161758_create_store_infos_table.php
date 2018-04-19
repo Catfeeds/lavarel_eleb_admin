@@ -14,8 +14,7 @@ class CreateStoreInfosTable extends Migration
     public function up()
     {
         Schema::create('store_infos', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('store_id');
+            $table->increments('store_id');
             $table->string('store_img');
             $table->string('store_rating')->defalut(0);
             $table->tinyInteger('brand')->defalut(0);

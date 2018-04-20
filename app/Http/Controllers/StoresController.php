@@ -48,52 +48,60 @@ class StoresController extends Controller
             $fileName='';
         }
 
-//        DB::beginTransaction();
-            //添加保存店铺账号表
-            $store=Store::create(
+        //保存商品店主信息
+        DB::transaction(function () use ($request,$fileName) {
+
+
+            $store_infos=Store_info::create(
+                [
+                    'store_name'=>$request->store_name,
+                    'store_img'=>$fileName,
+                    'brand'=>$request->brand,
+                    'on_time'=>$request->on_time,
+                    'fengniao'=>$request->fengniao,
+                    'bao'=>$request->bao,
+                    'piao'=>$request->piao,
+                    'zhun'=>$request->zhun,
+                    'start_send'=>$request->start_send,
+                    'store_rating'=>$request->store_rating,
+                    'send_cost'=>$request->send_cost,
+                    'notice'=>$request->notice,
+                    'discount'=>$request->discount,
+                    'distance'=>$request->distance,
+                    'estimate_time'=>$request->estimate_time,
+
+                ]
+            );
+
+            Store::create(
                 [
                     'name'=>$request->name,
-                    'telephone'=>$request->telephone,
-                    'password'=>bcrypt($request->password),
-                    'detail'=>$request->detail,
                     'cat_id'=>$request->cat_id,
-                ]);
-//            if (!$store){
-                //获取到店铺id
-                $id=$store->id;
-//                dump($id);exit;
-                //添加保存店铺信息表
-                Store_info::create(
-                    [
-                        'store_id'=>$id,
-                        'store_img'=>$fileName,
-                    ]
-                );
-//                if (!$store_info){
-//                    DB::commit();
-
-                    session()->flash('success','添加商铺成功');
+                    'password'=>bcrypt($request->password),
+                    'status'=>'0',
+                    'telephone'=>$request->telephone,
+                    'detail'=>$request->detail,
+                    //最后插入的id
+                    'store_id'=>$store_infos->id
+                ]
+            );
+        });
+                    session()->flash('success','添加商铺成功,待审核');
                     return redirect()->route('stores.index');
-//                }else{
-//                    DB::rollback();
-//                }
-//            }else{
-//                DB::rollback();
-//            }
     }
 
     //显示商铺列表
-    public function index(Request $request)
+    public function index(Request $request,Store $store)
     {
         $cats=Cat::all();
         //检查是否有keywords参数,有,需要搜索,没有 不需要搜索
         $keywords = $request->keywords;
         if($keywords){
-            $store_infos = Store_info::where("store_id","{$keywords}")->paginate(3);
+            $stores = Store::where("name",'like',"%{$keywords}%")->paginate(3);
         }else{
-            $store_infos = Store_info::paginate(3);
+            $stores = Store::paginate(3);
         }
-        return view('stores.index',compact('store_infos','keywords','cats'));
+        return view('stores.index',compact('stores','keywords','cats','stores'));
 
     }
     
@@ -103,4 +111,23 @@ class StoresController extends Controller
         $cats=Cat::all();
         return view('stores.edit',compact('store_info','cats'));
     }
+
+    //显示该商铺详情
+    public function show(Store $store){
+        $cats=Cat::all();
+        return view("stores.show",compact('store','cats'));
+    }
+
+    //修改该审核状态
+    public function change(Store $store)
+    {
+        $store->update(
+            [
+                'status'=>1,
+            ]
+        );
+        session()->flash('success','审核通过!');
+        redirect()->route('stores.index');
+    }
+
 }

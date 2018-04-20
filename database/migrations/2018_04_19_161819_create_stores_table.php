@@ -14,12 +14,14 @@ class CreateStoresTable extends Migration
     public function up()
     {
         Schema::create('stores', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->char('telephone');
             $table->string('password');
-            $table->string('detail')->default('');
+            $table->string('detail');
             $table->integer('cat_id');
+            $table->tinyInteger('status');
             $table->rememberToken();
             $table->timestamps();
         });

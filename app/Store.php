@@ -12,7 +12,7 @@ class Store extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'telephone', 'password','detail','cat_id'
+        'name', 'telephone', 'password','detail','cat_id','status','store_id'
     ];
 
     /**
@@ -25,6 +25,12 @@ class Store extends Model
     ];
 
     public function store_cat(){
-        return $this->belongsTo(Cat::class);
+        return $this->belongsTo(Cat::class,'cat_id');
     }
+
+    public function store_info(){
+        return $this->belongsTo(Store_info::class,'store_id');
+    }
+
+
 }

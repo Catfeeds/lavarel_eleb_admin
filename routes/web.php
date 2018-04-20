@@ -22,4 +22,4 @@ Route::get('/about', 'StaticPagesController@about')->name('about');
 //分类资源
 Route::resource('cats','CatsController');
 Route::resource('stores','StoresController');
-
+Route::get('stores/{store}/change','StoresController@change')->name('stores.change');

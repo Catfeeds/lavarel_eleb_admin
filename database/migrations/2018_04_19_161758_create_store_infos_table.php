@@ -14,20 +14,22 @@ class CreateStoreInfosTable extends Migration
     public function up()
     {
         Schema::create('store_infos', function (Blueprint $table) {
-            $table->increments('store_id');
+            $table->engine = 'InnoDB';
+            $table->increments('id');
+            $table->string('store_name');
             $table->string('store_img');
-            $table->string('store_rating')->defalut(0);
-            $table->tinyInteger('brand')->defalut(0);
-            $table->tinyInteger('on_time')->defalut(0);
-            $table->tinyInteger('bao')->defalut(0);
-            $table->tinyInteger('piao')->defalut(0);
-            $table->tinyInteger('zhun')->defalut(0);
-            $table->decimal('start_send')->defalut(20);
-            $table->decimal('send_cost')->defalut(5);
-            $table->integer('distance')->defalut(20);
-            $table->integer('estimate_time')->defalut(0);
-            $table->string('notice')->defalut('');
-            $table->string('discount')->defalut('');
+            $table->string('store_rating');
+            $table->tinyInteger('brand');
+            $table->tinyInteger('on_time');
+            $table->tinyInteger('bao');
+            $table->tinyInteger('piao');
+            $table->tinyInteger('zhun');
+            $table->decimal('start_send');
+            $table->decimal('send_cost');
+            $table->integer('distance');
+            $table->integer('estimate_time');
+            $table->string('notice');
+            $table->string('discount');
             $table->timestamps();
         });
     }

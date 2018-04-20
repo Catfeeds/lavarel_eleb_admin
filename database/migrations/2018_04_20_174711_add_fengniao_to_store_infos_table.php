@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStatusToStoreInfosTable extends Migration
+class AddFengniaoToStoreInfosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddStatusToStoreInfosTable extends Migration
      */
     public function up()
     {
-        //创建审核状态字段
         Schema::table('store_infos',function (Blueprint $table){
-            $table->tinyInteger('status')->defalut(1);
+            $table->tinyInteger('fengniao');
         });
     }
 
@@ -26,9 +25,9 @@ class AddStatusToStoreInfosTable extends Migration
      */
     public function down()
     {
-        //删除审核状态字段
+        //删除外键字段
         Schema::table('store_infos', function (Blueprint $table) {
-            $table->dropColumn('status');
+            $table->dropColumn('fengniao');
         });
     }
 }

@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class CatsController extends Controller
 {
+    //必须先登录
+    public function __construct()
+    {
+        $this->middleware('auth',[
+            'except'=>[]
+        ]);
+    }
     //添加分类页面
     public function create()
     {

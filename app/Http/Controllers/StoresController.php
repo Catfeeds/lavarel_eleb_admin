@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class StoresController extends Controller
 {
+    //必须先登录
+    public function __construct()
+    {
+        $this->middleware('auth',[
+            'except'=>[]
+        ]);
+    }
     //添加店铺
     public function create(){
         $cats=Cat::all();
@@ -106,10 +113,71 @@ class StoresController extends Controller
     }
     
     //显示修改表单
-    public function edit(Store_info $store_info)
+    public function edit(Store $store)
     {
         $cats=Cat::all();
-        return view('stores.edit',compact('store_info','cats'));
+        return view('stores.edit',compact('store','cats'));
+    }
+
+    //修改信息保存
+    public function update(Request $request){
+//        dump($request);exit;
+        $this->validate($request,
+            [
+                'name'=>'required',
+                'telephone'=>'required|digits:11',
+                'cat_id'=>'required',
+
+            ],
+            [
+                'name.required'=>'店铺名不能为空!',
+                'telephone.required'=>'电话号码不能为空!',
+                'telephone.digits'=>'请填写合法的电话号码!',
+                'cat_id.required'=>'分类不能为空!',
+
+            ]);
+
+        //保存上传logo
+        $uploder= new ImageUploadHandler();
+        $res=$uploder->save($request->store_img,'Store/img',0);
+        if($res){
+            $fileName=$res['path'];
+        }else{
+            $fileName='';
+        }
+
+        //保存商品店主信息
+        DB::transaction(function () use ($request,$fileName) {
+            Store_info::update(
+                [
+                    'store_name'=>$request->store_name,
+                    'store_img'=>$fileName,
+                    'brand'=>$request->brand,
+                    'on_time'=>$request->on_time,
+                    'fengniao'=>$request->fengniao,
+                    'bao'=>$request->bao,
+                    'piao'=>$request->piao,
+                    'zhun'=>$request->zhun,
+                    'start_send'=>$request->start_send,
+                    'send_cost'=>$request->send_cost,
+                    'notice'=>$request->notice,
+                    'discount'=>$request->discount,
+                    'distance'=>$request->distance,
+                    'estimate_time'=>$request->estimate_time,
+                ]
+            );
+
+            Store::update(
+                [
+                    'name'=>$request->name,
+                    'telephone'=>$request->telephone,
+                    'status'=>$request->status,
+                    'cat_id'=>$request->cat_id,
+                ]
+            );
+        });
+        session()->flash('success', '修改成功~');
+        return redirect()->route('stores.index');
     }
 
     //显示该商铺详情
@@ -127,7 +195,7 @@ class StoresController extends Controller
             ]
         );
         session()->flash('success','审核通过!');
-        redirect()->route('stores.index');
+        return redirect()->route('stores.index');
     }
 
 }

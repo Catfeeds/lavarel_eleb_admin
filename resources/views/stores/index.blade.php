@@ -28,10 +28,7 @@
                     <td>{{$store->status==1?'审核通过':'未审核'}}</td>
                     <td>{{$store->detail}}</td>
                     <td>
-                        <a href="{{ route('stores.edit',['store'=>$store->id]) }}" class="btn btn-warning btn-sm">编辑</a>
-
                         <a href="{{ route('stores.show',['store'=>$store->id]) }}" class="btn btn-primary btn-sm" >查看详细信息</a>
-
                         <button class="btn btn-danger btn-sm">删除</button>
                     </td>
                 </tr>

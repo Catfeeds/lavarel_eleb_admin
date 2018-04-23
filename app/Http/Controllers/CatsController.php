@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use App\Cat;
 use App\Handlers\ImageUploadHandler;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use OSS\Core\OssException;
 
 class CatsController extends Controller
 {
     //必须先登录
-    public function __construct()
-    {
-        $this->middleware('auth',[
-            'except'=>[]
-        ]);
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth',[
+//            'except'=>[]
+//        ]);
+//    }
     //添加分类页面
     public function create()
     {
@@ -28,30 +30,34 @@ class CatsController extends Controller
         $this->validate($request,
             [
                'name'=>'required',
-                'captcha'=>'required|captcha',
-                'logo'=>'image'
+                'logo'=>'required'
             ],
             [
                 'name.required'=>'商品分类名不能为空!',
-                'logo.image'=>'上传图片不合法!',
-                'captcha.required'=>'验证码不能为空!',
-                'captcha.captcha'=>'请填写正确的验证码!'
+                'logo.required'=>'上传图片不能为空!',
             ]);
 
         //保存上传logo
-        $uploder= new ImageUploadHandler();
-        $res=$uploder->save($request->logo,'Cats/logo',0);
-        if($res){
-            $fileName=$res['path'];
-        }else{
-            $fileName='';
-        }
-
+//        $uploder= new ImageUploadHandler();
+//        $res=$uploder->save($request->logo,'Cats/logo',0);
+//        if($res){
+//            $fileName=$res['path'];
+//        }else{
+//            $fileName='';
+//        }
+//        $client = App::make('aliyun-oss');
+//        try{
+//            $client->uploadFile('wei-eleb-shop','public'.$fileName,public_path($fileName));
+//        }catch (OssException $e){
+//            printf($e->getMessage() . "\n");
+////            return;
+//        }
+//        $url='https://wei-eleb-shop.oss-cn-beijing.aliyuncs.com/public';
         //保存商铺分类
         Cat::create(
             [
                 'name'=>$request->name,
-                'logo'=>$fileName,
+                'logo'=>$request->logo,
             ]
         );
         session()->flash('success','添加商铺分类成功');
@@ -96,7 +102,7 @@ class CatsController extends Controller
         $uploder = new ImageUploadHandler();
         $res  = $uploder->save($request->logo,'Cats/logo',0);
         if($res){
-            $fileName = $res['path'];
+            $fileName = url($res['path']);
         }else{
             $fileName = '';
         }
@@ -111,7 +117,7 @@ class CatsController extends Controller
         return redirect()->route('cats.index',compact('cat'));
     }
 
-    //删除用户
+    //删除店铺分类
     public function destroy(Cat $cat)
     {
         $cat->delete();

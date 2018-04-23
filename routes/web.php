@@ -19,12 +19,16 @@ Route::get('/', 'StaticPagesController@home')->name('home');
 Route::get('/help', 'StaticPagesController@help')->name('help');
 Route::get('/about', 'StaticPagesController@about')->name('about');
 
-//分类资源
+//商铺分类资源
 Route::resource('cats','CatsController');
+
 //店铺资源
-Route::resource('stores','StoresController');
+//Route::resource('members','MemberController');
+Route::resource('members','TestController');
+
+
 //修改审核状态
-Route::get('stores/{store}/change','StoresController@change')->name('stores.change');
+Route::get('members/{member}/change','TestController@change')->name('members.change');
 
 //管理员资源
 Route::resource('admins','AdminsController');
@@ -33,3 +37,6 @@ Route::resource('admins','AdminsController');
 Route::get('login', 'SessionsController@create')->name('login');
 Route::post('login', 'SessionsController@store')->name('login');
 Route::delete('logout', 'SessionsController@destroy')->name('logout');
+
+//图片上传
+Route::post('/upload','UploaderController@upload');

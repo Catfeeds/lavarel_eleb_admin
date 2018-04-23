@@ -19,9 +19,9 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">店铺管理<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{route('stores.index') }}">查看店铺</a></li>
+                        <li><a href="{{route('members.index') }}">查看店铺</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="{{ route('stores.create') }}">添加店铺</a></li>
+                        <li><a href="{{ route('members.create') }}">添加店铺</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

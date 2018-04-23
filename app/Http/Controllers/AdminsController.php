@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Hash;
 class AdminsController extends Controller
 {
     //先登录
-//    public function __construct()
-//    {
-//        $this->middleware('auth', [
-//            'except' => ['']
-//        ]);
-//    }
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'except' => ['create','store']
+        ]);
+    }
 
     //添加超级管理员
 
@@ -32,7 +32,8 @@ class AdminsController extends Controller
             [
                 'name' => 'required|min:2|max:30',
                 'password' => 'required|min:6|confirmed',
-                'captcha' => 'required|captcha'
+                'captcha' => 'required|captcha',
+                'email'=>'required|email',
             ],
             [
                 'name.required' => '用户名不能为空!',
@@ -40,6 +41,8 @@ class AdminsController extends Controller
                 'name.min' => '用户名不能低于2位!',
                 'password.min' => '密码不能低于6位!',
                 'password.confirmed' => '前后两次密码输入不一致!',
+                'email.required'=>'邮箱不能为空!',
+                'email.email'=>'请填写合法的邮箱!',
                 'captcha.required' => '验证码不能为空',
                 'captcha.captcha' => '请输入正确的验证码',
 
@@ -47,6 +50,7 @@ class AdminsController extends Controller
         Admin::create(
             [
                 'name' => $request->name,
+                'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]
         );

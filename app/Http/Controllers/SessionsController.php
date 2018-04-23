@@ -12,7 +12,7 @@ class SessionsController extends Controller
     {
         //如果管理员已登录,则跳转至首页
         if(Auth::user()){
-            return redirect('stores.index');
+            return redirect('members.index');
         }
         return view('sessions.create');
     }
@@ -35,7 +35,7 @@ class SessionsController extends Controller
 
             //登陆成功
             session()->flash('success','欢迎回来!');
-            return redirect()->route('stores.index');
+            return redirect()->route('members.index');
         }else{
             //登录失败
             session()->flash('danger','登录失败,用户名或密码不正确');

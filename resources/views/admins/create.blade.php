@@ -12,6 +12,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="email" class="form-control" placeholder="邮箱" name="email" value="{{ old('email') }}">
+                </div>
+
+                <div class="form-group">
                     <label>密码</label>
                     <input type="password" class="form-control" name="password" placeholder="密码">
                 </div>

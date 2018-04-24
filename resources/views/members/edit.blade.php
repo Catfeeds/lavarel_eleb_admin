@@ -1,6 +1,7 @@
 @extends('layouts.default')
 @section('title','修改店铺信息')
 @section('content')
+    <link rel="stylesheet" type="text/css" href="/webuploader/webuploader.css">
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="container col-lg-9" style="background-color: #eceeae">
@@ -16,14 +17,6 @@
                     <input class="form-control" name="name" value="{{ $member->name }}" />
                 </div>
                 <input type="hidden" name="status" value="{{$member->status}}">
-                {{--<div class="form-group">--}}
-                {{--<label>密码</label>--}}
-                {{--<input type="password" class="form-control" name="password" placeholder="密码">--}}
-                {{--</div>--}}
-                {{--<div class="form-group">--}}
-                {{--<label>确认密码</label>--}}
-                {{--<input type="password" class="form-control" name="password_confirmation" placeholder="确认密码">--}}
-                {{--</div>--}}
 
                 <div class="form-group">
                     <label>邮箱</label>
@@ -51,8 +44,20 @@
                 </div>
 
                 <div class="form-group">
-                    <label>新店铺图片</label>
-                    <input  type="file"  name="shop_img"/>
+                    <label for="logo">图片:</label>
+                    <input type="hidden" name="shop_img" id="logo" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <!--dom结构部分-->
+                    <div id="uploader-demo">
+                        <!--用来存放item-->
+                        <div id="fileList" class="uploader-list"></div>
+                        <div id="filePicker">选择图片</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <img src="" id="img" style="width: 150px"/>
                 </div>
 
                 <div class="form-group">
@@ -138,4 +143,43 @@
             </form>
         </div>
     </div>
+@stop
+@section('js')
+    <script type="text/javascript" src="/webuploader/webuploader.js"></script>
+    <script>
+        // 初始化Web Uploader
+        var uploader = WebUploader.create({
+
+            // 选完文件后，是否自动上传。
+            auto: true,
+
+            // swf文件路径
+            swf: '/webuploader/Uploader.swf',
+
+            // 文件接收服务端。
+            server: '/upload',
+            formData:{'_token':"{{csrf_token()}}",'dir':'Shops/edit'},
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#filePicker',
+
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on( 'uploadSuccess', function( file,response ) {
+//            $( '#'+file.id ).addClass('upload-state-done');
+            //回显图片
+            var url=response.url;
+            $("#img").attr('src',url);
+            //回显url地址
+            $("#logo").val(url);
+        });
+
+    </script>
 @stop

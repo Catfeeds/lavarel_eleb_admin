@@ -26,6 +26,8 @@ Route::resource('cats','CatsController');
 //Route::resource('members','MemberController');
 Route::resource('members','TestController');
 
+//活动资源
+Route::resource('activities','ActivitiesController');
 
 //修改审核状态
 Route::get('members/{member}/change','TestController@change')->name('members.change');

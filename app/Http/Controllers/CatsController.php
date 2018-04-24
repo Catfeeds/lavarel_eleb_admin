@@ -79,7 +79,6 @@ class CatsController extends Controller
     //修改商铺分类
     public function edit(Cat $cat)
     {
-
 //        dump($cat);exit;
         return view('cats.edit',compact('cat'));
     }
@@ -91,26 +90,19 @@ class CatsController extends Controller
         $this->validate($request,
             [
                 'name'=>'required',
-                'logo'=>'image',
+                'logo'=>'required'
             ],
             [
                 'name.required'=>'商铺分类名不能为空!',
-                'logo.image'=>'请上传合法的图片!'
+                'logo.required'=>'上传图片不能为空!',
             ]);
 
-        //保存文件
-        $uploder = new ImageUploadHandler();
-        $res  = $uploder->save($request->logo,'Cats/logo',0);
-        if($res){
-            $fileName = url($res['path']);
-        }else{
-            $fileName = '';
-        }
-        //保存用户
+
+        //保存店铺分类
         $cat->update(
             [
                 'name'=>$request->name,
-                'logo'=>$fileName,
+                'logo'=>$request->logo,
             ]
         );
         session()->flash('success', '修改成功~');

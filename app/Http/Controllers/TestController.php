@@ -33,6 +33,7 @@ class TestController extends Controller
                 'email'=>'required|email',
                 'password'=>'required|min:6|confirmed',
                 'cat_id'=>'required',
+                'shop_img'=>'required'
 
             ],
             [
@@ -43,26 +44,15 @@ class TestController extends Controller
                 'password.min'=>'密码不能低于6位!',
                 'password.confirmed'=>'前后两次密码输入不一致!',
                 'cat_id.required'=>'分类不能为空!',
-
+               'shop_img.required'=>'店铺图片不能为空!'
             ]);
 
-        //保存上传logo
-        $uploder= new ImageUploadHandler();
-        $res=$uploder->save($request->shop_img,'Shop/img',0);
-        if($res){
-            $fileName=url($res['path']);
-        }else{
-            $fileName='';
-        }
-
         //保存商品店主信息
-        DB::transaction(function () use ($request,$fileName) {
-
-
-            $shops=Shop::create(
+        DB::transaction(function () use ($request) {
+                        $shops=Shop::create(
                 [
                     'shop_name'=>$request->shop_name,
-                    'shop_img'=>$fileName,
+                    'shop_img'=>$request->shop_img,
                     'brand'=>$request->brand,
                     'on_time'=>$request->on_time,
                     'fengniao'=>$request->fengniao,
@@ -127,6 +117,7 @@ class TestController extends Controller
                 'name'=>'required',
                 'email'=>'required|email',
                 'cat_id'=>'required',
+                'shop_img'=>'required'
 
             ],
             [
@@ -134,24 +125,18 @@ class TestController extends Controller
                 'email.required'=>'邮箱不能为空!',
                 'email.email'=>'请填写合法的邮箱!',
                 'cat_id.required'=>'分类不能为空!',
+                'shop_img.required'=>'店铺图片不能为空!'
 
             ]);
 
-        //保存上传logo
-        $uploder= new ImageUploadHandler();
-        $res=$uploder->save($request->shop_img,'Shop/img',0);
-        if($res){
-            $fileName=url($res['path']);
-        }else{
-            $fileName='';
-        }
+
 
         //保存商品店主信息
-        DB::transaction(function () use ($request,$fileName,$member,$shop) {
+        DB::transaction(function () use ($request,$member,$shop) {
             $shop->update(
                 [
                     'shop_name'=>$request->shop_name,
-                    'shop_img'=>$fileName,
+                    'shop_img'=>$request->shop_img,
                     'brand'=>$request->brand,
                     'on_time'=>$request->on_time,
                     'fengniao'=>$request->fengniao,

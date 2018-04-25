@@ -110,58 +110,83 @@ class TestController extends Controller
     }
 
     //修改信息保存
-    public function update(Request $request,Member $member,Shop $shop){
+    public function update(Request $request,Member $member){
+//        dump($member);exit;
 //        dump($request);exit;
         $this->validate($request,
             [
                 'name'=>'required',
                 'email'=>'required|email',
                 'cat_id'=>'required',
-                'shop_img'=>'required'
-
             ],
             [
                 'name.required'=>'店铺名不能为空!',
                 'email.required'=>'邮箱不能为空!',
                 'email.email'=>'请填写合法的邮箱!',
                 'cat_id.required'=>'分类不能为空!',
-                'shop_img.required'=>'店铺图片不能为空!'
-
             ]);
 
-
-
         //保存商品店主信息
-        DB::transaction(function () use ($request,$member,$shop) {
-            $shop->update(
-                [
-                    'shop_name'=>$request->shop_name,
-                    'shop_img'=>$request->shop_img,
-                    'brand'=>$request->brand,
-                    'on_time'=>$request->on_time,
-                    'fengniao'=>$request->fengniao,
-                    'shop_rating'=>$request->shop_rating,
-                    'bao'=>$request->bao,
-                    'piao'=>$request->piao,
-                    'zhun'=>$request->zhun,
-                    'start_send'=>$request->start_send,
-                    'send_cost'=>$request->send_cost,
-                    'notice'=>$request->notice,
-                    'discount'=>$request->discount,
-                    'distance'=>$request->distance,
-                    'estimate_time'=>$request->estimate_time,
-                ]
-            );
-
-            $member->update(
-                [
-                    'name'=>$request->name,
-                    'email'=>$request->email,
-                    'status'=>$request->status,
-                    'cat_id'=>$request->cat_id,
-                    'detail'=>$request->detail,
-                ]
-            );
+        DB::transaction(function () use ($request,$member) {
+            if ($request->shop_img){
+                //echo 1;exit;
+                DB::table('shops')->where('id',$member->shop_id)->update(
+                    [
+                        'shop_name'=>$request->shop_name,
+                        'shop_img'=>$request->shop_img,
+                        'brand'=>$request->brand,
+                        'on_time'=>$request->on_time,
+                        'fengniao'=>$request->fengniao,
+                        'shop_rating'=>$request->shop_rating,
+                        'bao'=>$request->bao,
+                        'piao'=>$request->piao,
+                        'zhun'=>$request->zhun,
+                        'start_send'=>$request->start_send,
+                        'send_cost'=>$request->send_cost,
+                        'notice'=>$request->notice,
+                        'discount'=>$request->discount,
+                        'distance'=>$request->distance,
+                        'estimate_time'=>$request->estimate_time,
+                    ]
+                );
+                $member->update(
+                    [
+                        'name'=>$request->name,
+                        'email'=>$request->email,
+                        'status'=>$request->status,
+                        'cat_id'=>$request->cat_id,
+                        'detail'=>$request->detail,
+                    ]
+                );
+            }else{
+                DB::table('shops')->where('id',$member->shop_id)->update(
+                    [
+                        'shop_name'=>$request->shop_name,
+                        'brand'=>$request->brand,
+                        'on_time'=>$request->on_time,
+                        'fengniao'=>$request->fengniao,
+                        'shop_rating'=>$request->shop_rating,
+                        'bao'=>$request->bao,
+                        'piao'=>$request->piao,
+                        'zhun'=>$request->zhun,
+                        'start_send'=>$request->start_send,
+                        'send_cost'=>$request->send_cost,
+                        'notice'=>$request->notice,
+                        'discount'=>$request->discount,
+                        'distance'=>$request->distance,
+                        'estimate_time'=>$request->estimate_time,
+                    ]
+                );
+                $member->update(
+                    [
+                        'name'=>$request->name,
+                        'email'=>$request->email,
+                        'status'=>$request->status,
+                        'cat_id'=>$request->cat_id,
+                        'detail'=>$request->detail,
+                    ]
+                );
+            }
         });
         session()->flash('success', '修改成功~');
         return redirect()->route('members.index');

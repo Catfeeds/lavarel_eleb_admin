@@ -20,8 +20,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">活动管理<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{route('activities.index') }}">查看活动</a></li>
+                        @auth
                         <li role="separator" class="divider"></li>
                         <li><a href="{{ route('activities.create') }}">添加活动</a></li>
+                        @endauth
                     </ul>
                 </li>
                 <li class="dropdown">

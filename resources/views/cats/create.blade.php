@@ -66,6 +66,5 @@
             //回显url地址
             $("#logo").val(url);
         });
-
     </script>
 @stop

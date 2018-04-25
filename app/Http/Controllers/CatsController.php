@@ -90,21 +90,27 @@ class CatsController extends Controller
         $this->validate($request,
             [
                 'name'=>'required',
-                'logo'=>'required'
             ],
             [
                 'name.required'=>'商铺分类名不能为空!',
-                'logo.required'=>'上传图片不能为空!',
             ]);
 
-
         //保存店铺分类
-        $cat->update(
-            [
-                'name'=>$request->name,
-                'logo'=>$request->logo,
-            ]
-        );
+        if ($request->logo){
+            $cat->update(
+                [
+                    'name'=>$request->name,
+                    'logo'=>$request->logo,
+                ]
+            );
+        }else{
+            $cat->update(
+                [
+                    'name'=>$request->name,
+                    'logo'=>$cat->logo,
+                ]
+            );
+        }
         session()->flash('success', '修改成功~');
         return redirect()->route('cats.index',compact('cat'));
     }

@@ -15,7 +15,7 @@
             </div>
 
             <div class="form-group">
-                <label for="email">原logo图片：</label>
+                <label for="email">原logo图片：</label><br/>
                 <img src="@if($cat->logo){{ $cat->logo }}@endif" class="img-circle img-circle" style="width: 150px">
             </div>
 

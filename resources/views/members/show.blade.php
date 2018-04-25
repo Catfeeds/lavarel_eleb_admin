@@ -18,7 +18,7 @@
             <dt>店铺是否蜂鸟配送</dt>
             <dd>{{$member->shop->fengniao==1?'是':'否'}}</dd>
             <dt>店铺是否晚到必赔</dt>
-            <dd>{{$member->shop->promise==1?'是':'否'}}</dd>
+            <dd>{{$member->shop->zhun==1?'是':'否'}}</dd>
             <dt>店铺是否开具发票</dt>
             <dd>{{$member->shop->piao==1?'是':'否'}}</dd>
             <dt>起送价</dt>

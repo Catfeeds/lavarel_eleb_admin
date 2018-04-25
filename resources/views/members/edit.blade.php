@@ -6,7 +6,7 @@
         <div class="col-lg-1"></div>
         <div class="container col-lg-9" style="background-color: #eceeae">
             <br/>
-            <form  method="post" action="{{ route('members.update',$member) }}" enctype="multipart/form-data">
+            <form  method="post" action="{{ route('members.update',['member'=>$member]) }}">
                 <div class="form-group">
                     <label>店铺名称</label>
                     <input type="text" class="form-control" name="shop_name" value="{{ $member->shop->shop_name }}">
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>原店铺图片</label>
+                    <label>原店铺图片</label><br/>
                     <img src="{{$member->shop->shop_img}}" width="200">
                 </div>
 
@@ -62,8 +62,8 @@
 
                 <div class="form-group">
                     <label>是否品牌</label>
-                    是: <input type="radio" name="brand" value="1">&emsp;
-                    否: <input type="radio" name="brand" value="0" checked="checked">
+                    是: <input type="radio" name="brand" value="1" {{$member->shop->brand==1?'checked':''}}>
+                    否: <input type="radio" name="brand" value="0" {{$member->shop->brand==0?'checked':''}}>
                 </div>
 
                 <div class="form-group">
@@ -73,33 +73,33 @@
 
                 <div class="form-group">
                     <label>是否准时送达&emsp; </label>
-                    是: <input type="radio" name="on_time" value="1" checked="checked">&emsp;
-                    否: <input type="radio" name="on_time" value="0" >
+                    是: <input type="radio" name="on_time" value="1" {{$member->shop->on_time==1?'checked':''}}>
+                    否: <input type="radio" name="on_time" value="0" {{$member->shop->on_time==0?'checked':''}}>
                 </div>
 
 
                 <div class="form-group">
                     <label>是否蜂鸟配送&emsp;</label>
-                    是: <input type="radio" name="fengniao" value="1">&emsp;
-                    否: <input type="radio" name="fengniao" value="0" checked="checked">
+                    是: <input type="radio" name="fengniao" value="1" {{$member->shop->fengniao==1?'checked':''}}>
+                    否: <input type="radio" name="fengniao" value="0" {{$member->shop->fengniao==0?'checked':''}}>
                 </div>
 
                 <div class="form-group">
                     <label>是否保标记&emsp;</label>
-                    是: <input type="radio" name="bao" value="1">&emsp;
-                    否: <input type="radio" name="bao" value="0" checked="checked">
+                    是: <input type="radio" name="bao" value="1" {{$member->shop->bao==1?'checked':''}}>
+                    否: <input type="radio" name="bao" value="0" {{$member->shop->bao==0?'checked':''}}>
                 </div>
 
                 <div class="form-group">
                     <label>是否有发票&emsp;</label>
-                    是: <input type="radio" name="piao" value="1">&emsp;
-                    否: <input type="radio" name="piao" value="0" checked="checked">
+                    是: <input type="radio" name="piao" value="1" {{$member->shop->piao==1?'checked':''}}>
+                    否: <input type="radio" name="piao" value="0" {{$member->shop->piao==0?'checked':''}}>
                 </div>
 
                 <div class="form-group">
                     <label>是能准时发货&emsp;</label>
-                    是: <input type="radio" name="zhun" value="1">&emsp;
-                    否: <input type="radio" name="zhun" value="0" checked="checked">
+                    是: <input type="radio" name="zhun" value="1" {{$member->shop->zhun==1?'checked':''}}>
+                    否: <input type="radio" name="zhun" value="0" {{$member->shop->zhun==0?'checked':''}}>
                 </div>
 
 
@@ -135,7 +135,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">验证码</label>
                     <input id="captcha" class="form-control" name="captcha" >
-                    <img class="thumbnail captcha" src="{{ captcha_src('inverse') }}" onclick="this.src='/captcha/inverse?'+Math.random()" title="点击图片重新获取验证码">
+                    <img class="thumbnail captcha" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
                 </div>
                 <button type="submit" class="btn btn-primary btn-success"> 修改商户</button>
                 {{csrf_field()}}

@@ -28,7 +28,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">验证码</label>
                     <input id="captcha" class="form-control" name="captcha" >
-                    <img class="thumbnail captcha" src="{{ captcha_src('inverse') }}" onclick="this.src='/captcha/inverse?'+Math.random()" title="点击图片重新获取验证码">
+                    <img class="thumbnail captcha" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
                 </div>
                 <button type="submit" class="btn btn-primary btn-success"> 确认添加</button>
                 {{csrf_field()}}

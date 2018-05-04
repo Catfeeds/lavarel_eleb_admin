@@ -11,13 +11,13 @@ use App\Handlers\ImageUploadHandler;
 
 class TestController extends Controller
 {
-    //必须先登录
-    public function __construct()
-    {
-        $this->middleware('auth',[
-            'except'=>[]
-        ]);
-    }
+//    //必须先登录
+//    public function __construct()
+//    {
+//        $this->middleware('auth',[
+//            'except'=>[]
+//        ]);
+//    }
     //添加店铺
     public function create(){
         $cats=Cat::all();

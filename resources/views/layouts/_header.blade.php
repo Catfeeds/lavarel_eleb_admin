@@ -41,6 +41,35 @@
                         <li><a href="{{ route('cats.create') }}">添加商铺分类</a></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理员管理<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('admins.index') }}">管理员列表</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">会员管理<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('users.index') }}">查看会员</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">订单销量管理<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('sales.count') }}">查看菜品销量</a></li>
+                        <li><a href="{{route('orders.count') }}">查看订单销量</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">权限管理<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('permissions.create') }}">添加权限</a></li>
+                        <li><a href="{{route('permissions.index') }}">权限列表</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{route('roles.create') }}">添加角色</a></li>
+                        <li><a href="{{route('roles.index') }}">角色列表</a></li>
+                    </ul>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{route('about')}}"><span class="glyphicon glyphicon-info-sign"></span>关于我们</a></li>
@@ -52,7 +81,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user">{{\Illuminate\Support\Facades\Auth::user()->name}}</span> <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li role="separator" class="divider"></li>
-                        <li><a href="{{ route('admins.edit',['admin'=>\Illuminate\Support\Facades\Auth::user()]) }}" class=""><span class="glyphicon glyphicon-cog"></span>&emsp;修改密码</a></li>
+                        <li><a href="{{ route('admins.pwd_edit',['admin'=>\Illuminate\Support\Facades\Auth::user()]) }}" class=""><span class="glyphicon glyphicon-cog"></span>&emsp;修改密码</a></li>
                         <li role="separator" class="divider"></li>
                         <li>
                             <form method="post" action="{{route('logout')}}">

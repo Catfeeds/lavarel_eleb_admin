@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title','超级管理员注册')
+@section('title','管理员用户注册')
 @section('content')
     <div class="row">
         <div class="col-lg-1"></div>
@@ -7,13 +7,22 @@
             <br/>
             <form  method="post" action="{{ route('admins.store') }}" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label>超级管理员名称</label>
-                    <input type="text" class="form-control" placeholder="超级管理员登录名" name="name" value="{{ old('name') }}">
+                    <label>管理员用户名称</label>
+                    <input type="text" class="form-control" placeholder="管理员用户名称" name="name" value="{{ old('name') }}">
                 </div>
 
                 <div class="form-group">
                     <label>邮箱</label>
                     <input type="email" class="form-control" placeholder="邮箱" name="email" value="{{ old('email') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>所属角色:</label>
+                    @foreach($roles as $role)
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="role_id[]" value="{{$role->id}}">{{$role->display_name}}
+                        </label>
+                    @endforeach
                 </div>
 
                 <div class="form-group">

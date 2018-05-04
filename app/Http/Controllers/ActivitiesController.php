@@ -7,13 +7,7 @@ use Illuminate\Http\Request;
 
 class ActivitiesController extends Controller
 {
-    //先登录
-    public function __construct()
-    {
-        $this->middleware('auth', [
-            'except' => ['index','show']
-        ]);
-    }
+
     //创建活动 表单页
     public function create()
     {

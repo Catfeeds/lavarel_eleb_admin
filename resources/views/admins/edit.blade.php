@@ -1,34 +1,31 @@
 @extends('layouts.default')
-@section('title','修改密码')
-@section('content')
-    <div class="row">
-        <div class="col-lg-1"></div>
-        <div class="container col-lg-9" style="background-color: #eceeee">
-            <br/>
-            <form  method="post" action="{{ route('admins.update',$admin)}}">
-                {{csrf_field()}}
-                {{method_field('PUT')}}
-                <div class="form-group">
-                <label>旧密码</label>
-                <input type="password" class="form-control" name="old_password" placeholder="旧密码">
+@section('title','修改管理员')
+    @section('content')
+        <link rel="stylesheet" type="text/css" href="/webuploader/webuploader.css">
+        <form action="{{route('admins.update',['admin'=>$admin])}}" method="post">
+            {{csrf_field()}}
+            {{method_field('PUT')}}
+            <div class="form-group">
+                <label>管理员名:</label>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <input type="text" name="name" class="form-control" value="{{$admin->name}}">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>新密码</label>
-                    <input type="password" class="form-control" name="password" placeholder="新密码">
-                </div>
-                <div class="form-group">
-                <label>确认密码</label>
-                <input type="password" class="form-control" name="password_confirmation" placeholder="确认密码">
+            </div>
+            <div class="form-group">
+                <label>管理员邮箱:</label>
+                    <input type="text" name="email" class="form-control" value="{{$admin->email}}">
                 </div>
 
-                <div class="form-group">
-                    <label for="exampleInputEmail1">验证码</label>
-                    <input id="captcha" class="form-control" name="captcha" >
-                    <img class="thumbnail captcha" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
-                </div>
-                <button type="submit" class="btn btn-primary btn-success">确认修改</button>
-
-            </form>
-        </div>
-    </div>
-@stop
+            <div class="form-group">
+                <label>所属角色:</label>
+                @foreach($roles as $role)
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="role_id[]" value="{{$role->id}}" {{$admin->hasRole($role->name)?'checked':''}}>{{$role->display_name}}
+                </label>
+                @endforeach
+            </div>
+            <button type="submit" class="btn btn-default">确认修改</button>
+        </form>
+        @stop

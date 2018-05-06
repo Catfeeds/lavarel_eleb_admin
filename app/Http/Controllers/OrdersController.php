@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
@@ -10,6 +11,9 @@ class OrdersController extends Controller
     //
     public function count(Request $request)
     {
+        if (!Auth::user()->can('orders.count')){
+            return 403;
+        }
         $time_day=date('Y-m-d',time());
 //        dd($time);
         $where=[

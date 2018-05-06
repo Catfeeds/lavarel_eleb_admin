@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Email;
 use App\Member;
 use Illuminate\Http\Request;
 use App\Cat;
 use App\Shop;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Handlers\ImageUploadHandler;
+use Illuminate\Support\Facades\Mail;
 
 class TestController extends Controller
 {
@@ -20,12 +23,18 @@ class TestController extends Controller
 //    }
     //添加店铺
     public function create(){
+        if (!Auth::user()->can('members.create')){
+            return 403;
+        }
         $cats=Cat::all();
         return view('members.create',compact('cats'));
     }
 
     //店铺保存
     public function store(Request $request, Member $member){
+        if (!Auth::user()->can('members.store')){
+            return 403;
+        }
         //验证店铺
         $this->validate($request,
             [
@@ -90,6 +99,9 @@ class TestController extends Controller
     //显示商铺列表
     public function index(Request $request, Member $member)
     {
+        if (!Auth::user()->can('members.index')){
+            return 403;
+        }
         $cats=Cat::all();
         //检查是否有keywords参数,有,需要搜索,没有 不需要搜索
         $keywords = $request->keywords;
@@ -105,12 +117,18 @@ class TestController extends Controller
     //显示修改表单
     public function edit(Member $member)
     {
+        if (!Auth::user()->can('members.edit')){
+            return 403;
+        }
         $cats=Cat::all();
         return view('members.edit',compact('member','cats'));
     }
 
     //修改信息保存
     public function update(Request $request,Member $member){
+        if (!Auth::user()->can('members.update')){
+            return 403;
+        }
 //        dump($member);exit;
 //        dump($request);exit;
         $this->validate($request,
@@ -194,6 +212,9 @@ class TestController extends Controller
 
     //显示该商铺详情
     public function show(Member $member){
+        if (!Auth::user()->can('members.show')){
+            return 403;
+        }
         $cats=Cat::all();
         return view("members.show",compact('member','cats'));
     }
@@ -201,12 +222,21 @@ class TestController extends Controller
     //修改该审核状态
     public function change(Member $member)
     {
+        if (!Auth::user()->can('members.change')){
+            return 403;
+        }
 //        dump($member);exit;
+
         $member->update(
             [
                 'status'=>1,
             ]
         );
+        $email= $member->email;
+        $name=$member->name;
+
+        Email::email($email,$name);
+
         session()->flash('success','审核通过!');
         return redirect()->route('members.index');
     }

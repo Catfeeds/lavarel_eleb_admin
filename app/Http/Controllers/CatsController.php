@@ -6,6 +6,7 @@ use App\Cat;
 use App\Handlers\ImageUploadHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use OSS\Core\OssException;
 
 class CatsController extends Controller
@@ -20,12 +21,18 @@ class CatsController extends Controller
     //添加分类页面
     public function create()
     {
+        if (!Auth::user()->can('cats.create')){
+            return 403;
+        }
         return view('cats.create');
     }
 
     //添加分类保存
     public function store(Request $request)
     {
+        if (!Auth::user()->can('cats.store')){
+            return 403;
+        }
         //验证信息
         $this->validate($request,
             [
@@ -66,6 +73,9 @@ class CatsController extends Controller
 
     //显示商铺分类首页
     public function index(){
+        if (!Auth::user()->can('cats.index')){
+            return 403;
+        }
         $cats=Cat::all();
         return view('cats.index',compact('cats'));
     }
@@ -73,12 +83,18 @@ class CatsController extends Controller
     //显示管理员详情页
     public function show(Cat $cat)
     {
+        if (!Auth::user()->can('cats.show')){
+            return 403;
+        }
         return view('cats.show',compact('cat'));
     }
 
     //修改商铺分类
     public function edit(Cat $cat)
     {
+        if (!Auth::user()->can('cats.edit')){
+            return 403;
+        }
 //        dump($cat);exit;
         return view('cats.edit',compact('cat'));
     }
@@ -86,6 +102,9 @@ class CatsController extends Controller
     //修改更新保存
     public function update(Request $request,Cat $cat)
     {
+        if (!Auth::user()->can('cats.update')){
+            return 403;
+        }
         //验证
         $this->validate($request,
             [

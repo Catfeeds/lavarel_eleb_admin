@@ -22,6 +22,7 @@ class AdminsController extends Controller
 
     public function create()
     {
+
         $roles=Role::all();
         return view('admins.create',compact('roles'));
     }
@@ -29,6 +30,7 @@ class AdminsController extends Controller
     //保存超级管理员
     public function store(Request $request)
     {
+
 //        dd($request);
         $this->validate($request,
             [
@@ -71,6 +73,9 @@ class AdminsController extends Controller
     //管理员列表
     public function index()
     {
+        if (!Auth::user()->can('admins.index')){
+            return 403;
+        }
         $admins=Admin::paginate(3);
         return view('admins.index',compact('admins'));
     }
@@ -85,6 +90,9 @@ class AdminsController extends Controller
     //修改管理员
     public function edit(Admin $admin)
     {
+        if (!Auth::user()->can('admins.edit')){
+            return 403;
+        }
         $roles=Role::all();
         return view('admins.edit',compact('arr','roles','admin'));
     }
@@ -92,6 +100,9 @@ class AdminsController extends Controller
     //更新信息
     public function update(Request $request,Admin $admin)
     {
+        if (!Auth::user()->can('admins.update')){
+            return 403;
+        }
         //验证信息
         $this->validate($request,
             [
@@ -104,7 +115,7 @@ class AdminsController extends Controller
             ]);
 
 //        dd($request);
-        //修改更新角色
+        //修改更新管理员
 
         $admin->update(
             [
@@ -164,6 +175,7 @@ class AdminsController extends Controller
     //删除管理员
     public function destroy(Admin $admin)
     {
-
+        $admin->delete();
+        echo 'success';
     }
 }

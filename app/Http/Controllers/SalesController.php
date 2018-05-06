@@ -11,7 +11,9 @@ class SalesController extends Controller
     //查看菜品销量统计
     public function count(Request $request)
     {
-
+        if (!Auth::user()->can('sales.count')){
+            return 403;
+        }
         //获取当月起始时间
         $first_day=date('Y-m-01',time());
 //  $oneday=strtotime($first_day);

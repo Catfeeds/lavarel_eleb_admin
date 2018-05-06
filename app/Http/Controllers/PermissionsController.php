@@ -5,18 +5,25 @@ namespace App\Http\Controllers;
 use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PermissionsController extends Controller
 {
     //添加权限
     public function create()
     {
+        if (!Auth::user()->can('permissions.create')){
+            return 403;
+        }
         return view('permissions.create');
     }
 
     //添加保存
     public function store(Request $request)
     {
+        if (!Auth::user()->can('permissions.store')){
+            return 403;
+        }
         //验证信息
         $this->validate($request,
             [
@@ -45,6 +52,9 @@ class PermissionsController extends Controller
     //显示权限列表
     public function index()
     {
+        if (!Auth::user()->can('permissions.index')){
+            return 403;
+        }
         $permissions=Permission::paginate(5);
         return view('permissions.index',compact('permissions'));
     }
@@ -52,13 +62,18 @@ class PermissionsController extends Controller
     //修改权限表单
     public function edit(Permission $permission)
     {
+        if (!Auth::user()->can('permissions.edit')){
+            return 403;
+        }
         return view('permissions.edit',compact('permission'));
     }
 
     //修改保存
     public function update(Request $request,Permission $permission)
     {
-
+        if (!Auth::user()->can('permissions.update')){
+            return 403;
+        }
         //验证
         $this->validate($request,
             [
@@ -89,6 +104,9 @@ class PermissionsController extends Controller
     //权限详情
     public function show(Permission $permission)
     {
+        if (!Auth::user()->can('permissions.show')){
+            return 403;
+        }
         return view('permissions.show',compact('permission'));
     }
 

@@ -6,12 +6,16 @@ use App\Admin;
 use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RolesController extends Controller
 {
     //添加角色表单页面
     public function create()
     {
+        if (!Auth::user()->can('roles.create')){
+            return 403;
+        }
         $permissions=Permission::all();
         return view('roles.create',compact('permissions'));
     }
@@ -19,6 +23,9 @@ class RolesController extends Controller
     //添加保存
     public function store(Request $request)
     {
+        if (!Auth::user()->can('roles.store')){
+            return 403;
+        }
 //        dd($request);
         //验证信息
         $this->validate($request,
@@ -42,7 +49,7 @@ class RolesController extends Controller
         $admin->save();
 
         //给角色分配权限
-        $admin->attachPermissions($request->permission_id);
+        $admin->permissions()->sync($request->permission_id);
 
         //跳转页面
         session()->flash('success','添加角色成功!');
@@ -53,6 +60,9 @@ class RolesController extends Controller
     //角色列表
     public function index()
     {
+        if (!Auth::user()->can('roles.index')){
+            return 403;
+        }
         $roles=Role::paginate(3);
         return view('roles.index',compact('roles'));
     }
@@ -60,6 +70,9 @@ class RolesController extends Controller
     //修改角色表单
     public function edit(Role $role)
     {
+        if (!Auth::user()->can('roles.edit')){
+            return 403;
+        }
         //获取中间关系数据
         $role_permissions=$role->permissions()->get();
 //        dd($role_permissions);
@@ -72,6 +85,9 @@ class RolesController extends Controller
     //更新信息
     public function update(Request $request,Role $role)
     {
+        if (!Auth::user()->can('roles.update')){
+            return 403;
+        }
         //验证信息
         $this->validate($request,
             [

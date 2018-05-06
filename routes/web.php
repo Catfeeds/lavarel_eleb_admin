@@ -67,3 +67,27 @@ Route::get('orders/count','OrdersController@count')->name('orders.count');
 
 //查看菜品销量统计
 Route::get('sales/count','SalesController@count')->name('sales.count');
+
+//菜单管理
+Route::resource('menus','MenusController');
+
+//发送邮件
+//Route::get('/mail',function(){
+//    \Illuminate\Support\Facades\Mail::send(
+//        'mail',//邮件视图模板
+//        ['name'=>'张三'],
+//        function ($message){
+//            $message->to('252674363@qq.com')->subject('订单确认');
+//        }
+//    );
+//    return '邮件发送成功';
+//});
+
+//抽奖活动管理
+Route::resource('events','EventsController');
+
+//开奖
+Route::get('events/{event}/give','EventsController@give')->name('events.give');
+
+
+

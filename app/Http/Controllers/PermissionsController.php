@@ -55,7 +55,7 @@ class PermissionsController extends Controller
         if (!Auth::user()->can('permissions.index')){
             return 403;
         }
-        $permissions=Permission::paginate(5);
+        $permissions=Permission::paginate(10);
         return view('permissions.index',compact('permissions'));
     }
 

@@ -83,11 +83,20 @@ Route::resource('menus','MenusController');
 //    return '邮件发送成功';
 //});
 
+//抽奖活动奖品管理
+Route::resource('event_prizes','Event_prizesController');
+
 //抽奖活动管理
 Route::resource('events','EventsController');
 
 //开奖
 Route::get('events/{event}/give','EventsController@give')->name('events.give');
+
+//报名列表
+Route::get('event_members','Event_membersController@index')->name('event_members.index');
+
+//查看中奖情况
+Route::get('events/{event}/result','EventsController@result')->name('events.result');
 
 
 

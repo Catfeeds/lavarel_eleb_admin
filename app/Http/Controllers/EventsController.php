@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EventsController extends Controller
 {
@@ -62,7 +63,20 @@ class EventsController extends Controller
     //显示抽奖活动详情
     public function show(Event $event)
     {
-        return view('events.show',compact('event'));
+        $prizes=DB::table('event_prizes')->where('events_id',$event->id)->get();
+        return view('events.show',compact('event','prizes'));
+    }
+
+    //查看抽奖结果
+    public function result(Event $event)
+    {
+//        dd($event);
+        $results=DB::table('event_prizes')
+            ->join('members','event_prizes.member_id','=','members.id')
+            ->where('events_id',$event->id)
+            ->get();
+//        dd($event);
+        return view('events.result',compact('results','event'));
     }
 
     //修改抽奖活动表单
@@ -117,8 +131,46 @@ class EventsController extends Controller
     }
     
     //抽奖开奖
-    public function give()
+    public function give(Event $event)
     {
-        
+//        dd($event);
+        //获取所有报名抽奖的人
+        $member_ids=DB::table('event_members')
+            ->where('events_id',$event->id)
+            ->pluck('member_id');
+//        dd($member_ids);
+        //获取活动奖品
+        $prize_ids=DB::table('event_prizes')
+            ->where('events_id',$event->id)
+            ->pluck('id');
+//        dd($prize_ids);
+        //打乱抽奖人数
+        $members=$member_ids->shuffle();
+        //打乱活动奖品
+        $prizes=$prize_ids->shuffle();
+        //配对
+        $res=[];
+        foreach($members as $member_id){
+            $prize_id=$prizes->pop();
+            //奖品抽完
+            if ($prize_id == null)break;
+            $res[$prize_id]=$member_id;
+        }
+        //开启事务
+        DB::transaction(function () use ($res,$event) {
+            //保存数据库
+            foreach ($res as $prize_id=>$member_id){
+                DB::table('event_prizes')
+                    ->where('id',$prize_id)
+                    ->update(['member_id'=>$member_id]);
+            }
+            //修改活动状态
+            $event->is_prize=1;
+            $event->save();
+        });
+
+        //抽奖完成
+        session()->flash('success','抽奖成功!');
+        return redirect()->route('events.index');
     }
 }

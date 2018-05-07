@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventsTable extends Migration
+class CreateOrderGoodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('order_goods', function (Blueprint $table) {
             $table->engine='InnoDB';
             $table->increments('id');
-            $table->string('title');
-            $table->text('detail');
-            $table->integer('signup_start');
-            $table->integer('signup_end');
-            $table->integer('prize_date');
-            $table->integer('signup_num');
-            $table->tinyInteger('is_prize')->default(0);
+            $table->integer('order_id');
+            $table->integer('goods_id');
+            $table->integer('count');
+            $table->decimal('goods_price');
+            $table->string('goods_name');
+            $table->string('goods_img');
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('order_goods');
     }
 }

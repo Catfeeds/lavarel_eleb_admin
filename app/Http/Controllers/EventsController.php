@@ -133,7 +133,16 @@ class EventsController extends Controller
     //抽奖开奖
     public function give(Event $event)
     {
-//        dd($event);
+        //        dd($event);
+        //查看是否有奖品
+        $prize=DB::table('event_prizes')->where('events_id',$event->id)->first();
+        //  dd($prize);
+        if(!$prize){
+            session()->flash('danger','该活动还未添加奖品');
+            return redirect()->route('events.index');
+        }
+
+
         //获取所有报名抽奖的人
         $member_ids=DB::table('event_members')
             ->where('events_id',$event->id)

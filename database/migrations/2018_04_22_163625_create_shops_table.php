@@ -18,7 +18,7 @@ class CreateShopsTable extends Migration
             $table->increments('id');
             $table->string('shop_name');
             $table->string('shop_img');
-            $table->float('shop_rating',1)->default(0.0);
+            $table->float('shop_rating')->default(0.0);
             $table->tinyInteger('brand');
             $table->tinyInteger('on_time');
             $table->tinyInteger('bao');

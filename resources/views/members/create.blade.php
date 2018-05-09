@@ -67,7 +67,7 @@
 
         <div class="form-group">
             <label>评分</label>
-            <input type="number" name="shop_rating" value="{{old('shop_rating')}}">
+            <input type="number" step="0.1" name="shop_rating" value="{{old('shop_rating')}}">
         </div>
 
         <div class="form-group">

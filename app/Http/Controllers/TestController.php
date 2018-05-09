@@ -244,6 +244,9 @@ class TestController extends Controller
     //删除店铺
     public function destroy(Member $member)
     {
+        if (!Auth::user()->can('members.change')){
+            return 403;
+        }
         $member->delete();
         echo 'success';
     }

@@ -8,6 +8,6 @@ class Cat extends Model
 {
     //
     protected $fillable = [
-        'name', 'logo',
+        'cat_name', 'logo',
     ];
 }

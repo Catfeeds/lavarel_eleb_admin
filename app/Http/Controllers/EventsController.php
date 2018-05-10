@@ -56,7 +56,11 @@ class EventsController extends Controller
     //显示抽奖活动列表
     public function index()
     {
-        $events=Event::paginate(3);
+        $events=Event::all();
+//        $content=view('events/index',compact('events'))->render();
+//        var_dump($content);die;
+//        file_put_contents('events_list.html',$content);
+//        echo '静态页面化成功';
         return view('events.index',compact('events'));
     }
 

@@ -29,7 +29,7 @@
                 </tr>
             @endforeach
         </table>
-        {{ $events->links() }}
+        {{--{{ $events->links() }}--}}
     @stop
 @section('js')
     <script>

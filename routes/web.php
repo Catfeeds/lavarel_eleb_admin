@@ -15,9 +15,30 @@
 //    return view('welcome');
 //});
 //  以/ get请求 映射到StaticPagesController控制器的home方法
-Route::get('/', 'StaticPagesController@home')->name('home');
-Route::get('/help', 'StaticPagesController@help')->name('help');
-Route::get('/about', 'StaticPagesController@about')->name('about');
+Route::get('/', function (){
+    $home= view('static/home')->render();
+//    var_dump($home);die;
+    echo file_put_contents('home.html',$home);
+});
+
+Route::get('/help', function (){
+    $help= view('static/help')->render();
+//    var_dump($help);die;
+    echo file_put_contents('help.html',$help);
+});
+
+Route::get('/about', function (){
+    $about= view('static/about')->render();
+//    var_dump($about);die;
+    echo file_put_contents('about.html',$about);
+});
+
+//Route::get('/', 'StaticPagesController@home')->name('home');
+
+//Route::get('/help', 'StaticPagesController@help')->name('help');
+
+//Route::get('/about', 'StaticPagesController@about')->name('about');
+
 
 //商铺分类资源
 Route::resource('cats','CatsController');
@@ -89,6 +110,9 @@ Route::resource('event_prizes','Event_prizesController');
 //抽奖活动管理
 Route::resource('events','EventsController');
 
+//抽奖活动列表 页面静态化
+
+
 //开奖
 Route::get('events/{event}/give','EventsController@give')->name('events.give');
 
@@ -98,5 +122,8 @@ Route::get('event_members','Event_membersController@index')->name('event_members
 //查看中奖情况
 Route::get('events/{event}/result','EventsController@result')->name('events.result');
 
+//测试中文分词搜索
 
 
+//中文分词搜索
+Route::get('sphinxes','SphinxClientController@search')->name('sphinxes.search');

@@ -1,7 +1,7 @@
 @extends('layouts.default')
 @section('title','商铺列表')
     @section('content')
-        <form class="navbar-form navbar-left" method="get">
+        <form class="navbar-form navbar-left" method="get" action="{{route('sphinxes.search')}}">
             <div class="form-group">
                 <input type="text" name="keywords" class="form-control" placeholder="搜索...">
             </div>
@@ -21,10 +21,10 @@
             @foreach($members as $member)
                 <tr data-id="{{ $member->id }}">
                     <td>{{$member->id}}</td>
-                    <td>{{$member->shop->shop_name}}</td>
+                    <td>{{$member->shop_name}}</td>
                     <td>{{$member->name}}</td>
                     <td>{{$member->email}}</td>
-                    <td>{{$member->shop_cat->name}}</td>
+                    <td>{{$member->cat_name}}</td>
                     <td>{{$member->status==1?'审核通过':'未审核'}}</td>
                     <td>{{$member->detail}}</td>
                     <td>

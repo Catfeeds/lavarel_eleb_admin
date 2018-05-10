@@ -36,11 +36,11 @@ class CatsController extends Controller
         //验证信息
         $this->validate($request,
             [
-               'name'=>'required',
+               'cat_name'=>'required',
                 'logo'=>'required'
             ],
             [
-                'name.required'=>'商品分类名不能为空!',
+                'cat_name.required'=>'商品分类名不能为空!',
                 'logo.required'=>'上传图片不能为空!',
             ]);
 
@@ -63,7 +63,7 @@ class CatsController extends Controller
         //保存商铺分类
         Cat::create(
             [
-                'name'=>$request->name,
+                'cat_name'=>$request->cat_name,
                 'logo'=>$request->logo,
             ]
         );
@@ -108,24 +108,24 @@ class CatsController extends Controller
         //验证
         $this->validate($request,
             [
-                'name'=>'required',
+                'cat_name'=>'required',
             ],
             [
-                'name.required'=>'商铺分类名不能为空!',
+                'cat_name.required'=>'商铺分类名不能为空!',
             ]);
 
         //保存店铺分类
         if ($request->logo){
             $cat->update(
                 [
-                    'name'=>$request->name,
+                    'cat_name'=>$request->cat_name,
                     'logo'=>$request->logo,
                 ]
             );
         }else{
             $cat->update(
                 [
-                    'name'=>$request->name,
+                    'cat_name'=>$request->cat_name,
                     'logo'=>$cat->logo,
                 ]
             );

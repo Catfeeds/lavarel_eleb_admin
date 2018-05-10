@@ -107,6 +107,7 @@ class TestController extends Controller
             ->join('members','shops.id','=','members.shop_id')
             ->join('cats','members.cat_id','=','cats.id')
             ->paginate(3);
+//        dd($members);
         return view('members.index',compact('members','cats','member'));
 
     }

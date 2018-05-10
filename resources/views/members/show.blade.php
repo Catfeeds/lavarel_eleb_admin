@@ -9,7 +9,7 @@
             <dd><img src="{{$member->shop->shop_img}}" alt="未上传" width="200"></dd>
             <dt>店铺所属分类</dt>
 
-                <dd>{{$member->shop_cat->name}}</dd>
+                <dd>{{$member->shop_cat->cat_name}}</dd>
 
             <dt>店铺是否为品牌</dt>
             <dd>{{$member->shop->brand==1?'是':'否'}}</dd>

@@ -9,7 +9,7 @@
                 <label>商铺分类名:</label>
                 <div class="row">
                     <div class="col-sm-3">
-                        <input type="text" name="name" class="form-control" value="{{$cat->name}}">
+                        <input type="text" name="cat_name" class="form-control" value="{{$cat->cat_name}}">
                     </div>
                 </div>
             </div>

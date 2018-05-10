@@ -20,7 +20,7 @@
             </tr>
             @foreach($members as $member)
                 <tr data-id="{{ $member->id }}">
-                    <td>{{$member->id}}</td>
+                    <td>{{$member->shop_id}}</td>
                     <td>{{$member->shop_name}}</td>
                     <td>{{$member->name}}</td>
                     <td>{{$member->email}}</td>

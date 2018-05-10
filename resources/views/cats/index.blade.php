@@ -11,7 +11,7 @@
             @foreach($cats as $cat)
                 <tr data-id="{{ $cat->id }}">
                     <td>{{$cat->id}}</td>
-                    <td>{{$cat->name}}</td>
+                    <td>{{$cat->cat_name}}</td>
                     <td><img src="@if($cat->logo){{ $cat->logo }}@endif" class="img-circle img-circle" style="width: 50px"></td>
                     <td>
                         <a href="{{ route('cats.edit',['cat'=>$cat]) }}" class="btn btn-warning btn-sm">编辑</a>

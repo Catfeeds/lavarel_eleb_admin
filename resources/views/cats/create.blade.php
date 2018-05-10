@@ -8,7 +8,7 @@
                 <label>商铺分类名:</label>
                 <div class="row">
                     <div class="col-sm-3">
-                        <input type="text" name="name" class="form-control" placeholder="商铺分类名称" value="{{old('name')}}">
+                        <input type="text" name="cat_name" class="form-control" placeholder="商铺分类名称" value="{{old('cat_name')}}">
                     </div>
                 </div>
             </div>

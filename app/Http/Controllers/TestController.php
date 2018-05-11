@@ -115,7 +115,7 @@ class TestController extends Controller
         }
         $members = Member::where($wheres)->paginate(3);
 //        dd($members);
-        return view('members.index',compact('members','cats','member'));
+        return view('members.index',compact('members','cats','keywords','member'));
 
     }
 

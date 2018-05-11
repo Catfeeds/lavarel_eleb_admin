@@ -97,16 +97,23 @@ class TestController extends Controller
     }
 
     //显示商铺列表
-    public function index(Member $member)
+    public function index(Request $request,Member $member)
     {
         if (!Auth::user()->can('members.index')){
             return 403;
         }
         $cats=Cat::all();
-        $members=DB::table('shops')
-            ->join('members','shops.id','=','members.shop_id')
-            ->join('cats','members.cat_id','=','cats.id')
-            ->paginate(3);
+//        $members=DB::table('shops')
+//            ->join('members','shops.id','=','members.shop_id')
+//            ->join('cats','members.cat_id','=','cats.id')
+//            ->paginate(3);
+//        dd($members);
+        $keywords = $request->keywords;
+        $wheres=[];
+        if($keywords){
+            $wheres[]=["name",'like',"%{$keywords}%"];
+        }
+        $members = Member::where($wheres)->paginate(3);
 //        dd($members);
         return view('members.index',compact('members','cats','member'));
 
